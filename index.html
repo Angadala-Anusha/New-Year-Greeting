@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy New Year Celebration</title>
+    <style>
+        body {
+            background: url('myimg3.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+            font-family: 'Festive', cursive;
+            text-align: center;
+            padding: 50px;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        h1 {
+            font-size: 40px;
+            margin-top: 100px;
+            color: #fbc02d;
+            text-shadow: 0 0 20px #fbc02d, 0 0 40px #ff6f00;
+            display: none;
+        }
+
+        #message {
+            font-size: 5em;
+            font-weight: bold;
+            color: #ffd700;
+            text-shadow: 0 0 30px #ff8c00, 0 0 60px #ffd700;
+        }
+
+        #made-by {
+            font-size: 3em;
+            color: #00e5ff;
+            text-shadow: 0 0 15px #00e5ff, 0 0 30px #00b8d4;
+            display: none;
+        }
+
+        .celebrate-button {
+            background-color: #ff1744;
+            color: white;
+            padding: 20px 50px;
+            font-size: 2em;
+            font-weight: bold;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: transform 0.3s ease-in-out, background-color 0.3s;
+            margin-top: 50px;
+            box-shadow: 0 0 20px #ff1744;
+        }
+
+        .celebrate-button:hover {
+            background-color: #ff616f;
+            transform: scale(1.1);
+        }
+
+        #timer {
+            font-size: 6em;
+            color: #ffeb3b;
+            text-shadow: 0 0 20px #ffd600, 0 0 40px #ffab00;
+            margin-top: 20px;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh);
+                opacity: 0;
+            }
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: red;
+            border-radius: 50%;
+            animation: fall 100s linear infinite;
+        }
+    </style>
+</head>
+<body>
+    <button class="celebrate-button" onclick="celebrate()">Celebrate with us</button>
+    <h1 id="message">CHEERS TO NEW YEAR!</h1>
+    <h1 id="made-by">From AIML Department</h1>
+    <div id="timer">3</div>
+    <audio id="cracker-sound" src="sound.mp3"></audio>
+
+    <script>
+        function celebrate() {
+            document.querySelector(".celebrate-button").style.display = "none";
+
+            const audio = document.getElementById("cracker-sound");
+            audio.play().catch(error => console.error("Error playing audio:", error));
+
+            startTimer();
+        }
+
+        function startTimer() {
+            let timeLeft = 3;
+            const timerElement = document.getElementById("timer");
+
+            const timerInterval = setInterval(() => {
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    timerElement.innerHTML = "Happy New Year! 2025";
+                    triggerConfetti();
+                    setTimeout(() => {
+                        document.getElementById("made-by").style.display = "block";
+                    }, 3000);
+                } else {
+                    timerElement.innerHTML = timeLeft;
+                }
+                timeLeft -= 1;
+            }, 1000);
+        }
+
+        function triggerConfetti() {
+            for (let i = 0; i < 200; i++) {
+                const confetti = document.createElement("div");
+                confetti.classList.add("confetti");
+
+                confetti.style.backgroundColor = `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255})`;
+                confetti.style.left = Math.random() * window.innerWidth + "px";
+                confetti.style.top = Math.random() * -100 + "px";
+                confetti.style.animationDuration = Math.random() * 2 + 2 + "s";
+
+                document.body.appendChild(confetti);
+
+                setTimeout(() => confetti.remove(), 3000);
+            }
+        }
+    </script>
+</body>
+</html>
